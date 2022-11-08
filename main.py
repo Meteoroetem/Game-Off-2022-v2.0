@@ -12,7 +12,7 @@ BLACK = 0, 0, 0
 
 screen = pygame.display.set_mode(size)
 
-player = pygame.image.load("python logo square ratio 150p.png")  #pygame.surface.Surface(size)
+player = pygame.image.load("Assets/python logo square ratio 150p.png")  #pygame.surface.Surface(size)
 playerRect = player.get_rect()
 playerRect.center = (screen.get_rect().centerx - 150, screen.get_rect().centery)
 
