@@ -11,10 +11,14 @@ size = width, height = 1280, 720
 BLACK = 0, 0, 0
 
 screen = pygame.display.set_mode(size)
+msPressed = False
 
 player = pygame.image.load("Assets/python logo square ratio 150p.png")  #pygame.surface.Surface(size)
 playerRect = player.get_rect()
 playerRect.center = (screen.get_rect().centerx - 150, screen.get_rect().centery)
+velocity = vx, vy = 0, 0
+acceleration = 0.1
+canJump = True
 
 isJumping = False
 jumpTimer = pygame.USEREVENT + 1
@@ -22,18 +26,29 @@ jumpTimer = pygame.USEREVENT + 1
 
 while True:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT: sys.exit() 
-        elif event.type == jumpTimer: isJumping = False  
+        if event.type == pygame.QUIT: sys.exit()
+        elif event.type == pygame.MOUSEBUTTONUP: msPressed = False
+        elif event.type == pygame.MOUSEBUTTONDOWN: msPressed = True
+        elif event.type == jumpTimer: 
+            isJumping = False
+            
+
+    
 
     if not isJumping:
         if(pygame.mouse.get_pressed(3)[0]):
-            pygame.time.set_timer(jumpTimer, 250)
+            pygame.time.set_timer(jumpTimer, 500)
             isJumping = True
             #player = pygame.transform.rotozoom(player, 90, 1)
-    if isJumping is True:
-        playerRect = playerRect.move(0,-20)
     
-    playerRect = playerRect.move(0,10)
+    if isJumping is True:
+        if msPressed == False:
+            vy = -3
+    
+    #playerRect = playerRect.move(0,10)
+    vy += acceleration
+    velocity = vx, vy
+    playerRect = playerRect.move(velocity)
 
     screen.fill(BLACK)
     screen.blit(player, playerRect)
