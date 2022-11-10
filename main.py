@@ -29,7 +29,8 @@ jumpTimer = pygame.USEREVENT + 1
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
-        elif event.type == pygame.MOUSEBUTTONDOWN or (event.type == pygame.KEYDOWN and pygame.key.get_pressed()[pygame.K_SPACE]): 
+        #getting inputs (mouse, space bar and up key) and starting to jump
+        elif event.type == pygame.MOUSEBUTTONDOWN or (event.type == pygame.KEYDOWN and (pygame.key.get_pressed()[pygame.K_SPACE] or pygame.key.get_pressed()[pygame.K_UP])): 
             if not isJumping:
                 pygame.time.set_timer(jumpTimer, 200)
                 isJumping = True
