@@ -11,7 +11,7 @@ size = width, height = 1280, 720
 BLACK = 0, 0, 0
 
 screen = pygame.display.set_mode(size)
-msPressed = False
+
 
 player = pygame.image.load("Assets/python logo square ratio 150p.png")  #pygame.surface.Surface(size)
 playerRect = player.get_rect()
@@ -29,20 +29,23 @@ jumpTimer = pygame.USEREVENT + 1
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
-        elif event.type == pygame.MOUSEBUTTONUP: msPressed = False
-        elif event.type == pygame.MOUSEBUTTONDOWN: 
-            msPressed = True
+        elif event.type == pygame.MOUSEBUTTONDOWN or (event.type == pygame.KEYDOWN and pygame.key.get_pressed()[pygame.K_SPACE]): 
             if not isJumping:
                 pygame.time.set_timer(jumpTimer, 200)
                 isJumping = True
                 
         elif event.type == jumpTimer: 
             isJumping = False
+            if playerAngle < -270:
+                playerAngle = 0
+            elif playerAngle > -270 and playerAngle != 0:
+                playerAngle = -180
             
     
     if isJumping is True:
         vy = -5
-        playerAngle += -8.57
+        playerAngle -= 8.57
+        
     
     #player = pygame.transform.rotate(player, playerAngle)
     vy += acceleration
@@ -50,7 +53,7 @@ while True:
     playerRect = playerRect.move(velocity)
     
    
-
+    print(playerAngle)
     screen.fill(BLACK)
     screen.blit(pygame.transform.rotate(player, playerAngle), playerRect)
     pygame.display.flip()
