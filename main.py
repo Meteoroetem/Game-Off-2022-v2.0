@@ -7,11 +7,9 @@ fps = 120
 
 size = width, height = 1280, 720
 BLACK = 0, 0, 0
-
 screen = pygame.display.set_mode(size)
 
-
-player = pygame.image.load("Assets/python logo square ratio 150p.png")  #pygame.surface.Surface(size)
+player = pygame.image.load("Assets/python logo square ratio 150p.png")
 playerRect = player.get_rect()
 playerRect.center = (screen.get_rect().centerx - 150, screen.get_rect().centery)
 playerAngle = 0
@@ -22,9 +20,9 @@ canJump = True
 
 isJumping = False
 jumpTimer = pygame.USEREVENT + 1
-#playerSprite = pygame.draw.circle(player, (255,255,255), playerRect.center, 75)
 
 while True:
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
         #getting inputs (mouse, space bar and up key) and starting to jump
@@ -46,7 +44,6 @@ while True:
         playerAngle -= 8.57
         
     
-    #player = pygame.transform.rotate(player, playerAngle)
     vy += acceleration
     velocity = vx, vy
     playerRect = playerRect.move(velocity)
