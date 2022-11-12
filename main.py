@@ -1,8 +1,6 @@
 import sys, pygame
 
-#def jump(rect, surf):
 
-#initiating
 pygame.init()
 
 fps = 120
