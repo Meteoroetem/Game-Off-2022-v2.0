@@ -1,18 +1,21 @@
 import sys, pygame
-
+from wall import wall
 
 pygame.init()
 
 fps = 120
 
 size = width, height = 1280, 720
-BLACK = 0, 0, 0
+WHITE = 255,255,255
 screen = pygame.display.set_mode(size)
 
 player = pygame.image.load("Assets/python logo square ratio 150p.png")
 playerRect = player.get_rect()
 playerRect.center = (screen.get_rect().centerx - 150, screen.get_rect().centery)
 playerAngle = 0
+
+wall1 = wall()
+wall1Rect = wall1.image.get_rect()
 
 velocity = vx, vy = 0, 0
 acceleration = 0.3
@@ -47,11 +50,12 @@ while True:
     vy += acceleration
     velocity = vx, vy
     playerRect = playerRect.move(velocity)
-    
+    wall1Rect = wall1Rect.move(10,0)
    
     print(playerAngle)
-    screen.fill(BLACK)
+    screen.fill(WHITE)
     screen.blit(pygame.transform.rotate(player, playerAngle), playerRect)
+    screen.blit(wall1.image, wall1Rect)
     pygame.display.flip()
     pygame.time.wait(int(1000/fps))
     
