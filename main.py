@@ -6,7 +6,7 @@ pygame.init()
 fps = 120
 
 size = width, height = 1280, 720
-WHITE = 255,255,255
+backgroundColor = 138, 255, 206
 screen = pygame.display.set_mode(size)
 
 player = pygame.image.load("Assets/python logo square ratio 150p.png")
@@ -16,6 +16,7 @@ playerAngle = 0
 
 wall1 = wall()
 wall1Rect = wall1.image.get_rect()
+print(wall1.rects[0].topleft)
 
 velocity = vx, vy = 0, 0
 acceleration = 0.3
@@ -47,13 +48,21 @@ while True:
         playerAngle -= 8.57
         
     
+    if playerRect.colliderect(wall1.rects[0]) or playerRect.colliderect(wall1.rects[1]):
+        pygame.quit()
+        sys.exit()
+
     vy += acceleration
     velocity = vx, vy
     playerRect = playerRect.move(velocity)
-    wall1Rect = wall1Rect.move(10,0)
+    wall1.position -= pygame.Vector2(10,0)
+    wall1.rects[0].left -= 10
+    wall1.rects[1].left -= 10
+    wall1Rect.topleft = wall1.position
+    
    
-    print(playerAngle)
-    screen.fill(WHITE)
+    print(wall1.rects[0].topleft,wall1.rects[1].topleft)
+    screen.fill(backgroundColor)
     screen.blit(pygame.transform.rotate(player, playerAngle), playerRect)
     screen.blit(wall1.image, wall1Rect)
     pygame.display.flip()
