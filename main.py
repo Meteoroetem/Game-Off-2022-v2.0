@@ -3,13 +3,16 @@ from wall import wall
 
 pygame.init()
 
-fps = 120
+fps = 1000
 
 size = width, height = 1280, 720
 backgroundColor = 138, 255, 206
 screen = pygame.display.set_mode(size)
 
-background = pygame.image.load("Assets/PyGameBackground.png")
+mainFont = pygame.font.Font("Assets/FastinaOotsineDEMO/FastinaOotsineDEMO.otf", 120)
+score = 0
+
+background = pygame.image.load("Assets/newPyGameBackground.png")
 screen.blit(background,(0,0))
 
 player = pygame.image.load("Assets/python logo square ratio 150p.png")
@@ -18,7 +21,10 @@ playerRect.center = (screen.get_rect().centerx - 150, screen.get_rect().centery)
 playerAngle = 0
 
 wall1 = wall()
-wall1Rect = wall1.image.get_rect()              #print(wall1.rects[0].topleft)
+wall2 = wall(pos=(2560,0))
+wall3 = wall(pos=(3840,0))
+
+walls = [wall1, wall2 ,wall3]            #print(wall1.rects[0].topleft)
 
 velocity = vx, vy = 0, 0
 acceleration = 0.3
@@ -45,31 +51,60 @@ while True:
                 playerAngle = -180
             
     
-    if isJumping is True:
+    if isJumping == True:
         vy = -5
         playerAngle -= 8.57
         
-    
-    if playerRect.colliderect(wall1.rects[0]) or playerRect.colliderect(wall1.rects[1]):
-        pygame.quit()
-        sys.exit()
+    for theWall in walls:
+        for rect in theWall.rects:
+            colidingRect = pygame.Rect(playerRect.topleft, [playerRect.width-20, playerRect.height-20])
+            colidingRect.center = playerRect.center
+            if colidingRect.colliderect(rect):
+                print("Colliding!")
+                score = 0
 
+    for theWall in walls:
+        if playerRect.centerx == theWall.position[0]+50:
+            score += 10
+
+
+    if playerRect.top > screen.get_height():
+        #playerRect.center = (screen.get_rect().centerx - 150, screen.get_rect().centery)
+        playerRect.top = screen.get_height()
+        vy = -15
+        if score != 0: score -= 5
+    if playerRect.top < 0:
+        playerRect.top = 0
+        if score != 0: score -= 5
 
     #Physics calculations
     vy += acceleration
     velocity = vx, vy
     playerRect = playerRect.move(velocity)
-    wall1.position -= pygame.Vector2(10,0)
-    wall1.rects[0].left -= 10
-    wall1.rects[1].left -= 10
-    wall1Rect.topleft = wall1.position
-    
-   
+
+    for theWall in walls:
+        if theWall.position[0] < -theWall.image.get_rect().width:
+            walls.remove(theWall)
+            walls.append(wall((3840,0)))
+        theWall.position -= pygame.Vector2(10,0)
+        for rect in theWall.rects:
+            rect.left -= 10
+
+        
+            
+
     #Screen update
     screen.fill(backgroundColor)
     screen.blit(background,(0,0))
     screen.blit(pygame.transform.rotate(player, playerAngle), playerRect)
-    screen.blit(wall1.image, wall1Rect)
+    
+    for theWall in walls:
+        if theWall.position[0] < 1280 or theWall.position[0] > 0:
+            screen.blit(theWall.image, theWall.position)
+
+    strScore = str("Score: " + str(score))
+    screen.blit(mainFont.render(strScore, False, (255,255,100)), (0,0))
+
     pygame.display.flip()
     pygame.time.wait(int(1000/fps))
     

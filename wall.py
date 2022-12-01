@@ -20,5 +20,6 @@ class wall:
             self.image = pygame.image.load("Assets/bracketsMistake.png")
             self.rects = [pygame.Rect(pos[0], pos[1] + 10, 61, 250), pygame.Rect(pos[0] + 191, pos[1] + 459, 55, 251)]
         elif self.spriteNum == 3:
-            self.image = pygame.image.load("Assets/semicolon_mistake.png")
-            self.rects = [pygame.Rect(pos[0] + 82, pos[1] + 2, 135, 144), pygame.Rect(pos[0] + 100, pos[1] + 404, 111, 270)]
+            self.image = pygame.image.load("Assets/newIntMistake.png")
+            self.rects = [pygame.Rect(pos[0] + 241, pos[1] + 20, 101, 109), pygame.Rect(pos[0] + 19, pos[1] + 294, 115, 111), pygame.Rect(pos[0] + 230, pos[1] + 593, 124, 111)]
+        
