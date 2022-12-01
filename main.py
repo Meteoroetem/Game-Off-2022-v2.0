@@ -9,14 +9,16 @@ size = width, height = 1280, 720
 backgroundColor = 138, 255, 206
 screen = pygame.display.set_mode(size)
 
+background = pygame.image.load("Assets/PyGameBackground.png")
+screen.blit(background,(0,0))
+
 player = pygame.image.load("Assets/python logo square ratio 150p.png")
 playerRect = player.get_rect()
 playerRect.center = (screen.get_rect().centerx - 150, screen.get_rect().centery)
 playerAngle = 0
 
 wall1 = wall()
-wall1Rect = wall1.image.get_rect()
-print(wall1.rects[0].topleft)
+wall1Rect = wall1.image.get_rect()              #print(wall1.rects[0].topleft)
 
 velocity = vx, vy = 0, 0
 acceleration = 0.3
@@ -52,6 +54,8 @@ while True:
         pygame.quit()
         sys.exit()
 
+
+    #Physics calculations
     vy += acceleration
     velocity = vx, vy
     playerRect = playerRect.move(velocity)
@@ -61,8 +65,9 @@ while True:
     wall1Rect.topleft = wall1.position
     
    
-    print(wall1.rects[0].topleft,wall1.rects[1].topleft)
+    #Screen update
     screen.fill(backgroundColor)
+    screen.blit(background,(0,0))
     screen.blit(pygame.transform.rotate(player, playerAngle), playerRect)
     screen.blit(wall1.image, wall1Rect)
     pygame.display.flip()
